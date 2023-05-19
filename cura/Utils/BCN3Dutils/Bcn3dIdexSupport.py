@@ -10,6 +10,8 @@ from UM.Scene.Selection import Selection
 from UM.Scene.Scene import Scene
 from UM.Math.Vector import Vector
 from UM.Scene.SceneNode import SceneNode
+import UM.Application
+from UM.Logger import Logger
 
 from cura.Scene.CuraSceneNode import CuraSceneNode
 from cura.Operations.SetParentOperation import SetParentOperation
