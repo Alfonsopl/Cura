@@ -625,6 +625,9 @@ class CuraApplication(QtApplication):
     def closeApplication(self) -> None:
         Logger.log("i", "Close application")
 
+        #BCN3D IDEX INCLUSION
+        self._global_container_stack.setProperty("print_mode", "value", "singleT0")
+
         # Workaround: Before closing the window, remove the global stack.
         # This is necessary because as the main window gets closed, hundreds of QML elements get updated which often
         # request the global stack. However as the Qt-side of the Machine Manager is being dismantled, the conversion of
@@ -1643,6 +1646,10 @@ class CuraApplication(QtApplication):
             if parent is not None and parent in selected_nodes and not parent.callDecoration("isGroup"):
                 Selection.remove(node)
 
+        #BCN3D IDEX INCLUSION
+        from cura.Utils.BCN3Dutils.Bcn3dIdexSupport import duplicatedGroupSelected
+        duplicatedGroupSelected(self.getController(), group_node, Selection, SetParentOperation)
+
         # Move selected nodes into the group-node
         Selection.applyOperation(SetParentOperation, group_node)
 
@@ -1670,6 +1677,10 @@ class CuraApplication(QtApplication):
 
                     # Add all individual nodes to the selection
                     Selection.add(child)
+
+                #BCN3D IDEX INCLUSION
+                from cura.Utils.BCN3Dutils.Bcn3dIdexSupport import onDuplicatedgroupSelected
+                op = onDuplicatedgroupSelected(op, node)
 
                 op.push()
                 # Note: The group removes itself from the scene once all its children have left it,
@@ -1943,6 +1954,10 @@ class CuraApplication(QtApplication):
             operation = AddSceneNodeOperation(node, scene.getRoot())
             operation.push()
 
+            #BCN3D IDEX INCLUSION
+            from cura.Utils.BCN3Dutils.Bcn3dIdexSupport import onReadMeshFinished
+            nodes_to_arrange = onReadMeshFinished(nodes_to_arrange, node, scene)
+            
             node.callDecoration("setActiveExtruder", default_extruder_id)
             scene.sceneChanged.emit(node)
 
