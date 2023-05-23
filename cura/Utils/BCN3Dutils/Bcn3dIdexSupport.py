@@ -9,6 +9,7 @@ from UM.Controller import Controller
 from UM.Scene.Selection import Selection
 from UM.Scene.Scene import Scene
 from UM.Math.Vector import Vector
+from UM.Message import Message
 from UM.Scene.SceneNode import SceneNode
 import UM.Application
 from UM.Logger import Logger
@@ -58,7 +59,7 @@ def updateNodeBoundaryCheckForDuplicated() -> None:
             node_dup._outside_buildarea = node_dup.node._outside_buildarea
 
 # Deleted duplitaed nodes when group selected for being deleted (@pyqtSlot() def groupSelected(self) )
-# cura/CuraApplication.py:1652
+# cura/CuraApplication.py:1649
 def duplicatedGroupSelected(controller : Controller, group_node : CuraSceneNode, selection : Selection, setParentOperation : SetParentOperation) -> None:
     print_mode_enabled = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "enabled")
     if print_mode_enabled:
@@ -106,9 +107,30 @@ def onReadMeshFinished(nodes_to_arrange : List[CuraSceneNode], node : SceneNode,
 
     return nodes_to_arrange
 
-def removeDuplicatedNodes() -> None:
-    print_mode_manager = PrintModeManager.PrintModeManager().getInstance()
-    print_mode_manager.removeDuplicatedNodes()
+# On Multiply objects (def run(self))
+# cura/MultiplyObjectsJob.py:80
+def idexMultiplyObjectsJob(op : GroupedOperation, nodes : List[SceneNode],  scene : Scene) -> List[CuraSceneNode]:
+    print_mode_enabled = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "enabled")
+    push : bool = False
+    for new_node in nodes:
+        if print_mode_enabled:
+            node_dup = DuplicatedNode(new_node)
+            op.addOperation(AddNodesOperation(node_dup, scene.getRoot()))
+            push = True
+    if push:
+        op.push()
+    return op
+
+#ReadFileJob (def run(self)
+#UM/ReadFileJob.py:87
+def checkSTLScene(filename : str, loading_message : Message) -> None:
+    PrintModeManager.getInstance().checkSTLScene(filename, loading_message)
+
+#WorkspaceFileHandler _readWorkspaceFinished(self, job: ReadFileJob)
+#UM/WorkspaceFileHandler.py:77
+def applyPrintMode() -> None:
+    PrintModeManager.getInstance().applyPrintMode()
+
 
 def onRemoveNodesWithLayerData(node :SceneNode, op : GroupedOperation) -> GroupedOperation:
     print_mode_enabled = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "enabled")
