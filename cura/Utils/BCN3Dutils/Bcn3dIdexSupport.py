@@ -134,7 +134,7 @@ def applyPrintMode() -> None:
 
 #SetParentOperation undo(self)
 #Cura/Operations/SetParentOperation.py:29
-def setParentOperationUndo(set_parent, parent, old_parent, node, scene_root):
+def setParentOperationUndo(set_parent, parent, old_parent, node, scene_root) -> None:
     print_mode_enabled = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "enabled")
     is_duplicated_node = type(node) == DuplicatedNode
     if print_mode_enabled and is_duplicated_node :
@@ -164,7 +164,7 @@ def setParentOperationRedo(set_parent, parent, old_parent, node, scene_root) -> 
     else:
         set_parent(parent)
 
-def _fixAndSetParent(set_parent, parent, scene_root):
+def _fixAndSetParent(set_parent, parent, scene_root) -> None:
     print_mode = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "value")
     if print_mode in ["dual", "singleT0", "singleT1"] and parent == scene_root:
         set_parent(None)
@@ -172,6 +172,13 @@ def _fixAndSetParent(set_parent, parent, scene_root):
         set_parent(scene_root)
     else:
         set_parent(parent)
+
+def curaSceneNodeIsVisible(isVisible : bool) -> bool:
+    print_mode = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "value")
+    if print_mode == "duplication" or print_mode == "mirror":
+        return True
+    else:
+        return isVisible
 
 def onRemoveNodesWithLayerData(node :SceneNode, op : GroupedOperation) -> GroupedOperation:
     print_mode_enabled = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "enabled")
