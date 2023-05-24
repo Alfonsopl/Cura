@@ -132,6 +132,47 @@ def applyPrintMode() -> None:
     PrintModeManager.getInstance().applyPrintMode()
 
 
+#SetParentOperation undo(self)
+#Cura/Operations/SetParentOperation.py:29
+def setParentOperationUndo(set_parent, parent, old_parent, node, scene_root):
+    print_mode_enabled = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "enabled")
+    is_duplicated_node = type(node) == DuplicatedNode
+    if print_mode_enabled and is_duplicated_node :
+        _fixAndSetParent(set_parent, old_parent, scene_root)
+        if type(parent) == DuplicatedNode:
+            if parent in PrintModeManager.getInstance().getDuplicatedNodes():
+                PrintModeManager.getInstance().deleteDuplicatedNode(parent, False)
+            elif type(old_parent) == DuplicatedNode:
+                if old_parent not in PrintModeManager.getInstance().getDuplicatedNodes():
+                    PrintModeManager.getInstance().addDuplicatedNode(old_parent)
+    else:
+        set_parent(old_parent)
+
+#SetParentOperation redo(self)
+#Cura/Operations/setParentOperationRedo.py:36
+def setParentOperationRedo(set_parent, parent, old_parent, node, scene_root) -> None:
+    print_mode_enabled = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "enabled")
+    is_duplicated_node = type(node) == DuplicatedNode
+    if print_mode_enabled and is_duplicated_node:
+        _fixAndSetParent(set_parent, parent, scene_root)
+        if type(parent) == DuplicatedNode:
+            if parent not in PrintModeManager.getInstance().getDuplicatedNodes():
+                PrintModeManager.getInstance().addDuplicatedNode(parent)
+        elif type(old_parent) == DuplicatedNode:
+            if old_parent in PrintModeManager.getInstance().getDuplicatedNodes():
+                PrintModeManager.getInstance().deleteDuplicatedNode( old_parent, False)
+    else:
+        set_parent(parent)
+
+def _fixAndSetParent(set_parent, parent, scene_root):
+    print_mode = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "value")
+    if print_mode in ["dual", "singleT0", "singleT1"] and parent == scene_root:
+        set_parent(None)
+    elif print_mode not in ["singleT0", "singleT1", "dual"] and parent is None:
+        set_parent(scene_root)
+    else:
+        set_parent(parent)
+
 def onRemoveNodesWithLayerData(node :SceneNode, op : GroupedOperation) -> GroupedOperation:
     print_mode_enabled = Application.getInstance().getGlobalContainerStack().getProperty("print_mode", "enabled")
     node_dup =  PrintModeManager.getInstance().getDuplicatedNode(node)
