@@ -87,7 +87,7 @@ class PrintModeManager:
     def applyPrintMode(self):
         app = Application.getInstance()
         bcn3d_api = app.getPluginRegistry().getPluginObject("BCN3D")
-        bcn3d_api.getPrintersManager().setPrintMode(app.getPrintModeToLoad())
+        bcn3d_api.getPrintersManager().setPrintMode(self.getPrintModeToLoad())
 
     def addDuplicatedNode(self, node) -> None:
         node.callDecoration("setBuildPlateNumber", 0)
@@ -184,8 +184,6 @@ class PrintModeManager:
                 if self._last_mode in ["singleT0", "singleT1", "dual"]:
                     Logger.info("Moving nodes to the left")
                     self._moveNodes(nodes, -1)
-                # Render duplicate nodes
-                self.renderDuplicatedNodes()
 
             # Set last print mode
             self._last_mode = print_mode
