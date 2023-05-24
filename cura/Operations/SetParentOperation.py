@@ -24,14 +24,14 @@ class SetParentOperation(Operation.Operation):
     def undo(self) -> None:
         """Undoes the set-parent operation, restoring the old parent."""
 
-        #BCN3D INCLUSION
+        #BCN3D IDEX INCLUSION
         from cura.Utils.BCN3Dutils.Bcn3dIdexSupport import setParentOperationUndo
         setParentOperationUndo(self._set_parent, self._old_parent, self._node, Application.getInstance().getController().getScene().getRoot())
         #self._set_parent(self._old_parent)
 
     def redo(self) -> None:
         """Re-applies the set-parent operation."""
-        #BCN3D INCLUSION
+        #BCN3D IDEX INCLUSION
         from cura.Utils.BCN3Dutils.Bcn3dIdexSupport import setParentOperationRedo
         setParentOperationRedo(self._set_parent, self._old_parent, self._node)
         #self._set_parent(self._parent)
