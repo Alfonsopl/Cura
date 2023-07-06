@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-04 11:54+0000\n"
+"POT-Creation-Date: 2023-07-06 12:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -925,13 +925,13 @@ msgctxt "@label"
 msgid "Configurations"
 msgstr "Configurazioni"
 
-msgctxt "@action:inmenu"
-msgid "Configure Cura..."
-msgstr "Configura Cura..."
-
 msgctxt "@info:tooltip"
 msgid "Configure Per Model Settings"
 msgstr "Configura impostazioni per modello"
+
+msgctxt "@action:inmenu"
+msgid "Configure Stratos..."
+msgstr ""
 
 msgctxt "@action"
 msgid "Configure group"
@@ -5497,6 +5497,10 @@ msgstr "{printer_name} sarà rimossa fino alla prossima sincronizzazione account
 msgctxt "@info:generic"
 msgid "{} plugins failed to download"
 msgstr "Impossibile scaricare i plugin {}"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure Cura..."
+#~ msgstr "Configura Cura..."
 
 #~ msgctxt "@info:status"
 #~ msgid "Cura does not accurately display layers when Wire Printing is enabled."

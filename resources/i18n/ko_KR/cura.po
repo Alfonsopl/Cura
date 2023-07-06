@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-04 11:54+0000\n"
+"POT-Creation-Date: 2023-07-06 12:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -921,13 +921,13 @@ msgctxt "@label"
 msgid "Configurations"
 msgstr "구성"
 
-msgctxt "@action:inmenu"
-msgid "Configure Cura..."
-msgstr "Cura 구성 ..."
-
 msgctxt "@info:tooltip"
 msgid "Configure Per Model Settings"
 msgstr "모델 별 설정 구성"
+
+msgctxt "@action:inmenu"
+msgid "Configure Stratos..."
+msgstr ""
 
 msgctxt "@action"
 msgid "Configure group"
@@ -5479,6 +5479,10 @@ msgstr "다음 계정 동기화 시까지 {printer_name}이(가) 제거됩니다
 msgctxt "@info:generic"
 msgid "{} plugins failed to download"
 msgstr "{}개의 플러그인을 다운로드하지 못했습니다"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure Cura..."
+#~ msgstr "Cura 구성 ..."
 
 #~ msgctxt "@info:status"
 #~ msgid "Cura does not accurately display layers when Wire Printing is enabled."
